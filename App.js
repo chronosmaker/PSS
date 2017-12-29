@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import TabNavigator from 'react-native-tab-navigator';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-import {px2dp} from './utils/common.util';
+import {px2dp} from './utils/common';
 import {systemColor} from './models/color';
 
 import HomePage from './android_views/HomePage';
