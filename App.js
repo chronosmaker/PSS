@@ -2,61 +2,82 @@ import React, {Component} from 'react';
 import TabNavigator from 'react-native-tab-navigator';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-import {px2dp} from './utils/common';
-import {systemColor} from './models/color';
+import {px2dp} from './common/utils';
+import {tabBarColor} from './models/color';
 
 import HomePage from './android_views/HomePage';
 import ReadPage from './android_views/ReadPage';
 import WeatherPage from './android_views/WeatherPage';
 import SettingPage from './android_views/SettingPage';
 
+const page = {
+  home: {id: 1, title: '地图', icon: 'map-marker'},
+  reader: {id: 2, title: '阅读', icon: 'book'},
+  weather: {id: 3, title: '天气', icon: 'cloud'},
+  setting: {id: 4, title: '设置', icon: 'cogs'}
+};
+
 export default class App extends Component {
 
   constructor() {
     super();
-    this.state = {selectedTab: 'home'};
+    this.state = {selectedTab: page.home.id};
   }
 
   render() {
     return (
       <TabNavigator>
         <TabNavigator.Item
-          title="地图"
-          selectedTitleStyle={{color: systemColor.tabBar.selectedColor}}
-          selected={this.state.selectedTab === 'home'}
-          onPress={() => this.setState({selectedTab: 'home'})}
-          renderIcon={() => <Icon name="map-marker" size={px2dp(22)} color={systemColor.tabBar.defaultColor}/>}
-          renderSelectedIcon={() => <Icon name="map-marker" size={px2dp(22)} color={systemColor.tabBar.selectedColor}/>}>
-          <HomePage/>
+          title={page.home.title}
+          selectedTitleStyle={{color: tabBarColor.selected}}
+          selected={this.state.selectedTab === page.home.id}
+          onPress={() => this.setState({selectedTab: page.home.id})}
+          renderIcon={() => <Icon name={page.home.icon} size={px2dp(22)} color={tabBarColor.primary}/>}
+          renderSelectedIcon={() => <Icon name={page.home.icon} size={px2dp(22)} color={tabBarColor.selected}/>}>
+          {this._renderView(page.home.id)}
         </TabNavigator.Item>
         <TabNavigator.Item
-          title="阅读"
-          selectedTitleStyle={{color: systemColor.tabBar.selectedColor}}
-          selected={this.state.selectedTab === 'read'}
-          onPress={() => this.setState({selectedTab: 'read'})}
-          renderIcon={() => <Icon name="book" size={px2dp(22)} color={systemColor.tabBar.defaultColor}/>}
-          renderSelectedIcon={() => <Icon name="book" size={px2dp(22)} color={systemColor.tabBar.selectedColor}/>}>
-          <ReadPage/>
+          title={page.reader.title}
+          selectedTitleStyle={{color: tabBarColor.selected}}
+          selected={this.state.selectedTab === page.reader.id}
+          onPress={() => this.setState({selectedTab: page.reader.id})}
+          renderIcon={() => <Icon name={page.reader.icon} size={px2dp(22)} color={tabBarColor.primary}/>}
+          renderSelectedIcon={() => <Icon name={page.reader.icon} size={px2dp(22)} color={tabBarColor.selected}/>}>
+          {this._renderView(page.reader.id)}
         </TabNavigator.Item>
         <TabNavigator.Item
-          title="天气"
-          selectedTitleStyle={{color: systemColor.tabBar.selectedColor}}
-          selected={this.state.selectedTab === 'weather'}
-          onPress={() => this.setState({selectedTab: 'weather'})}
-          renderIcon={() => <Icon name="cloud" size={px2dp(22)} color={systemColor.tabBar.defaultColor}/>}
-          renderSelectedIcon={() => <Icon name="cloud" size={px2dp(22)} color={systemColor.tabBar.selectedColor}/>}>
-          <WeatherPage/>
+          title={page.weather.title}
+          selectedTitleStyle={{color: tabBarColor.selected}}
+          selected={this.state.selectedTab === page.weather.id}
+          onPress={() => this.setState({selectedTab: page.weather.id})}
+          renderIcon={() => <Icon name={page.weather.icon} size={px2dp(22)} color={tabBarColor.primary}/>}
+          renderSelectedIcon={() => <Icon name={page.weather.icon} size={px2dp(22)} color={tabBarColor.selected}/>}>
+          {this._renderView(page.weather.id)}
         </TabNavigator.Item>
         <TabNavigator.Item
-          title="设置"
-          selectedTitleStyle={{color: systemColor.tabBar.selectedColor}}
-          selected={this.state.selectedTab === 'setting'}
-          onPress={() => this.setState({selectedTab: 'setting'})}
-          renderIcon={() => <Icon name="cogs" size={px2dp(22)} color={systemColor.tabBar.defaultColor}/>}
-          renderSelectedIcon={() => <Icon name="cogs" size={px2dp(22)} color={systemColor.tabBar.selectedColor}/>}>
-          <SettingPage/>
+          title={page.setting.title}
+          selectedTitleStyle={{color: tabBarColor.selected}}
+          selected={this.state.selectedTab === page.setting.id}
+          onPress={() => this.setState({selectedTab: page.setting.id})}
+          renderIcon={() => <Icon name={page.setting.icon} size={px2dp(22)} color={tabBarColor.primary}/>}
+          renderSelectedIcon={() => <Icon name={page.setting.icon} size={px2dp(22)} color={tabBarColor.selected}/>}>
+          {this._renderView(page.setting.id)}
         </TabNavigator.Item>
       </TabNavigator>
     );
+  }
+
+  _renderView(id) {
+    switch (id) {
+      case page.reader.id:
+        return <ReadPage/>;
+      case page.weather.id:
+        return <WeatherPage/>;
+      case page.setting.id:
+        return <SettingPage/>;
+      case page.home.id:
+      default:
+        return <HomePage/>;
+    }
   }
 }

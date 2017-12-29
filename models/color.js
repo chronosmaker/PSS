@@ -1,6 +1,6 @@
-export const systemColor = {
-  tabBar: {
-    defaultColor: '#666',
-    selectedColor: '#3496f0'
+module.exports = {
+  tabBarColor: {
+    primary: '#666',
+    selected: '#3496f0'
   }
 };
