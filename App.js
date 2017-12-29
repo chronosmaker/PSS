@@ -1,64 +1,62 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * http://blog.csdn.net/Cloudox_/article/details/52386495
- * https://www.jianshu.com/p/95166cfb727f
- * fmkadmapgofadopljbjfkapdkoienihi
- */
-
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import TabNavigator from 'react-native-tab-navigator';
+import Icon from 'react-native-vector-icons/FontAwesome'
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-  'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-  'Shake or press menu button for dev menu',
-});
+import {px2dp} from './utils/common.util';
+import {systemColor} from './models/color';
 
-export default class App extends Component<{}> {
+import HomePage from './android_views/HomePage';
+import ReadPage from './android_views/ReadPage';
+import WeatherPage from './android_views/WeatherPage';
+import SettingPage from './android_views/SettingPage';
+
+export default class App extends Component {
+
   constructor() {
     super();
-    console.log(1);
+    this.state = {selectedTab: 'home'};
   }
 
   render() {
-    console.log(2);
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
+      <TabNavigator>
+        <TabNavigator.Item
+          title="地图"
+          selectedTitleStyle={{color: systemColor.tabBar.selectedColor}}
+          selected={this.state.selectedTab === 'home'}
+          onPress={() => this.setState({selectedTab: 'home'})}
+          renderIcon={() => <Icon name="map-marker" size={px2dp(22)} color={systemColor.tabBar.defaultColor}/>}
+          renderSelectedIcon={() => <Icon name="map-marker" size={px2dp(22)} color={systemColor.tabBar.selectedColor}/>}>
+          <HomePage/>
+        </TabNavigator.Item>
+        <TabNavigator.Item
+          title="阅读"
+          selectedTitleStyle={{color: systemColor.tabBar.selectedColor}}
+          selected={this.state.selectedTab === 'read'}
+          onPress={() => this.setState({selectedTab: 'read'})}
+          renderIcon={() => <Icon name="book" size={px2dp(22)} color={systemColor.tabBar.defaultColor}/>}
+          renderSelectedIcon={() => <Icon name="book" size={px2dp(22)} color={systemColor.tabBar.selectedColor}/>}>
+          <ReadPage/>
+        </TabNavigator.Item>
+        <TabNavigator.Item
+          title="天气"
+          selectedTitleStyle={{color: systemColor.tabBar.selectedColor}}
+          selected={this.state.selectedTab === 'weather'}
+          onPress={() => this.setState({selectedTab: 'weather'})}
+          renderIcon={() => <Icon name="cloud" size={px2dp(22)} color={systemColor.tabBar.defaultColor}/>}
+          renderSelectedIcon={() => <Icon name="cloud" size={px2dp(22)} color={systemColor.tabBar.selectedColor}/>}>
+          <WeatherPage/>
+        </TabNavigator.Item>
+        <TabNavigator.Item
+          title="设置"
+          selectedTitleStyle={{color: systemColor.tabBar.selectedColor}}
+          selected={this.state.selectedTab === 'setting'}
+          onPress={() => this.setState({selectedTab: 'setting'})}
+          renderIcon={() => <Icon name="cogs" size={px2dp(22)} color={systemColor.tabBar.defaultColor}/>}
+          renderSelectedIcon={() => <Icon name="cogs" size={px2dp(22)} color={systemColor.tabBar.selectedColor}/>}>
+          <SettingPage/>
+        </TabNavigator.Item>
+      </TabNavigator>
     );
   }
-
-  componentDidMount() {
-    console.log(3);
-  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
