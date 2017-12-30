@@ -3,13 +3,13 @@ import {StyleSheet, View} from 'react-native';
 
 import MyWebView from './MyWebView';
 
-const nearByURL = 'http://123.57.39.116:3000/html/nearby.html';
+const nearByURL = 'http://192.168.1.11:8080/html/nearby.html';
 
 class HomePage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <MyWebView uri='https://www.baidu.com'/>
+        <MyWebView uri={nearByURL}/>
       </View>
     );
   }
