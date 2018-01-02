@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView, View, Button, Text} from 'react-native';
+import {StyleSheet, ScrollView, View} from 'react-native';
 import {StackNavigator} from 'react-navigation';
+import * as Util from '../common/utils';
 
-import Category from './read/category';
-import List from './read/list';
 import Recommend from './read/recommend';
+import Category from './read/category';
 import Search from './read/search';
 import Topic from './read/topic';
+import ReadList from './read/list';
 
 class Hr extends Component {
   render() {
@@ -16,17 +17,7 @@ class Hr extends Component {
   }
 }
 
-class DetailPage extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Chat with Lucy</Text>
-      </View>
-    );
-  }
-}
-
-class HomePage extends Component {
+class ReadHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,7 +26,6 @@ class HomePage extends Component {
   }
 
   render() {
-    const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
         <Search/>
@@ -43,15 +33,13 @@ class HomePage extends Component {
         {
           this.state.isShow ?
             <ScrollView style={styles.container}>
-              <Topic/>
+              <Topic data={this.state.recommendTopic}/>
               <Hr/>
-              <Recommend/>
-              <Category/>
-              <Recommend/>
-              <View>
-                <Button title="Chat with Lucy"
-                        onPress={() => navigate('ReadDetail')}/>
-              </View>
+              <Recommend name='热门推荐' data={this.state.hotTopic}/>
+              <Hr/>
+              <Category data={this.state.category} navi={this.props.navigation}/>
+              <Hr/>
+              <Recommend name='清新一刻' data={this.state.other}/>
             </ScrollView>
             :
             null
@@ -61,7 +49,24 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
-    this.setState({isShow: true});
+    Util.get('http://192.168.1.11:3000/data/read?type=config',
+      data => {
+        if (data.status === 1) {
+          const obj = data.data;
+          const hotTopic = obj.hotTopic;
+          const recommendTopic = obj.recommendTopic;
+          const other = obj.other;
+          const category = obj.category;
+          this.setState({
+            isShow: true,
+            hotTopic: hotTopic,
+            recommendTopic: recommendTopic,
+            other: other,
+            category: category
+          });
+        }
+      },
+      err => console.log(err))
   }
 }
 
@@ -76,8 +81,8 @@ const styles = StyleSheet.create({
 });
 
 const RouteConfigs = {
-  ReadHome: {screen: HomePage, navigationOptions: {header: null}},
-  ReadDetail: {screen: DetailPage, navigationOptions: {title: 'Chat with Lucy', headerStyle: {height: 40}}},
+  ReadHome: {screen: ReadHome, navigationOptions: {header: null}},
+  ReadList: {screen: ReadList, navigationOptions: {headerStyle: {height: 40}}},
 };
 
 const StackNavigatorConfig = {

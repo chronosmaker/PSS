@@ -3,17 +3,27 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 import {size} from '../../common/utils';
 
 class topic extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.data
+    }
+  }
+
   render() {
+    let views = [];
+    const data = this.state.data;
+    for (let i in data) {
+      views.push(
+        <Image style={styles.img} key={i} resizeMode='cover' source={{uri: data[i].img}}/>
+      );
+    }
     return (
       <View style={styles.container}>
         <Text style={styles.text1}>推荐专题</Text>
         <View style={styles.img_view}>
-          <Image style={styles.img}
-                 resizeMode='cover'
-                 source={{uri: 'https://imgsa.baidu.com/news/pic/item/96dda144ad34598212be136d07f431adcbef841d.jpg'}}/>
-          <Image style={styles.img}
-                 resizeMode='cover'
-                 source={{uri: 'https://imgsa.baidu.com/news/pic/item/10dfa9ec8a136327107459cd9a8fa0ec09fac7b7.jpg'}}/>
+          {views}
         </View>
         <Text style={styles.text2}>查看更多 &gt;</Text>
       </View>
