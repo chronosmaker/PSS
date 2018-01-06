@@ -3,20 +3,19 @@ import {StyleSheet, Text, View, Image, FlatList} from 'react-native';
 import * as Util from '../../common/utils';
 
 class ListItem extends PureComponent {
-
   // _onPress = () => {
   //   this.props.onPressItem(this.props.id);
   // };
 
-  render() {
+  render () {
     return (
       <View style={styles.item}>
         <View>
-          <Image source={{uri: 'https://imgsa.baidu.com/news/pic/item/96dda144ad34598212be136d07f431adcbef841d.jpg'}}/>
+          <Image style={styles.img} source={{uri: this.props.img}}/>
         </View>
-        <View>
-          <Text>{this.props.title}</Text>
-          <Text>2017-12-12</Text>
+        <View style={styles.text_wraper}>
+          <Text style={styles.title} numberOfLines={1}>{this.props.title}</Text>
+          <Text style={styles.time}>{this.props.time}</Text>
         </View>
       </View>
     )
@@ -24,12 +23,11 @@ class ListItem extends PureComponent {
 }
 
 class List extends PureComponent {
-
   static navigationOptions = ({navigation}) => ({
     title: navigation.state.params.title
   });
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       data: [],
@@ -53,13 +51,14 @@ class List extends PureComponent {
   _renderItem = ({item}) => (
     <ListItem
       id={item.id}
+      img={item.img}
+      time={item.time}
       title={item.title}
       onPressItem={this._onPressItem}
-      selected={!!this.state.selected.get(item.id)}
-    />
+      selected={!!this.state.selected.get(item.id)}/>
   );
 
-  render() {
+  render () {
     return (
       <FlatList
         data={this.state.data}
@@ -70,10 +69,11 @@ class List extends PureComponent {
     );
   }
 
-  componentDidMount() {
+  componentDidMount () {
     Util.get(this.state.url,
       data => {
         if (data.status === 1) {
+          console.log(data.data)
           this.setState({data: data.data});
         }
       },
@@ -87,7 +87,27 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     borderBottomColor: '#EDEDED',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    flexDirection: 'row'
+  },
+  img: {
+    marginTop: 6,
+    width: 60,
+    height: 60,
+    borderRadius: 4
+  },
+  text_wraper: {
+    marginLeft: 10,
+    flex: 1
+  },
+  title: {
+    marginTop: 10,
+    fontSize: 16
+  },
+  time: {
+    marginTop: 6,
+    color: '#ddd',
+    fontSize: 14
   }
 });
 
