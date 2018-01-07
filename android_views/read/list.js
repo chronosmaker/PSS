@@ -1,64 +1,58 @@
-import React, {PureComponent} from 'react';
-import {StyleSheet, Text, View, Image, FlatList} from 'react-native';
+import React, { PureComponent } from 'react';
+import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import * as Util from '../../common/utils';
 
 class ListItem extends PureComponent {
-  // _onPress = () => {
-  //   this.props.onPressItem(this.props.id);
-  // };
+  _onPress = () => {
+    this.props.onPressItem(this.props.title, this.props.url);
+  };
 
-  render () {
+  render() {
     return (
-      <View style={styles.item}>
+      <TouchableOpacity style={styles.item} onPress={this._onPress}>
         <View>
-          <Image style={styles.img} source={{uri: this.props.img}}/>
+          <Image style={styles.img} source={{ uri: this.props.img }} />
         </View>
         <View style={styles.text_wraper}>
           <Text style={styles.title} numberOfLines={1}>{this.props.title}</Text>
           <Text style={styles.time}>{this.props.time}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 }
 
 class List extends PureComponent {
-  static navigationOptions = ({navigation}) => ({
+  static navigationOptions = ({ navigation }) => ({
     title: navigation.state.params.title
   });
 
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
       data: [],
       url: props.navigation.state.params.url,
-      selected: (new Map(): Map<string, boolean>)
+      navi: props.navigation
     };
   }
 
   _keyExtractor = (item, index) => item.id;
 
-  _onPressItem = (id) => {
-    // updater functions are preferred for transactional updates
-    // this.setState((state) => {
-    //   // copy the map rather than modifying state.
-    //   const selected = new Map(state.selected);
-    //   selected.set(id, !selected.get(id)); // toggle
-    //   return {selected};
-    // });
+  _onPressItem = (title, url) => {
+    this.state.navi.navigate('MyWebView', { title: title, url: url });
   };
 
-  _renderItem = ({item}) => (
+  _renderItem = ({ item }) => (
     <ListItem
       id={item.id}
       img={item.img}
       time={item.time}
       title={item.title}
-      onPressItem={this._onPressItem}
-      selected={!!this.state.selected.get(item.id)}/>
+      url={item.url}
+      onPressItem={this._onPressItem} />
   );
 
-  render () {
+  render() {
     return (
       <FlatList
         data={this.state.data}
@@ -69,12 +63,11 @@ class List extends PureComponent {
     );
   }
 
-  componentDidMount () {
+  componentDidMount() {
     Util.get(this.state.url,
       data => {
         if (data.status === 1) {
-          console.log(data.data)
-          this.setState({data: data.data});
+          this.setState({ data: data.data });
         }
       },
       err => console.log(err));

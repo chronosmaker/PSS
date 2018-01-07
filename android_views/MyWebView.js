@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {StyleSheet, Text, View, WebView} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View, WebView } from 'react-native';
 
 class MyWebView extends Component {
 
@@ -20,21 +20,21 @@ class MyWebView extends Component {
               <Text style={styles.text}>网络有问题，请检查网络情况...</Text>
             </View>
             :
-            <WebView source={{uri: this.state.uri}}
-                     startInLoadingState={true}
-                     onError={this._showError.bind(this)}/>
+            <WebView source={{ uri: this.state.uri }}
+              startInLoadingState={true}
+              onError={this._showError.bind(this)} />
         }
       </View>
     );
   }
 
   _showError() {
-    this.setState({isError: true});
+    this.setState({ isError: true });
   }
 }
 
 const styles = StyleSheet.create({
-  container: {flex: 1},
+  container: { flex: 1 },
   errorInfo: {
     flex: 1,
     alignItems: 'center',

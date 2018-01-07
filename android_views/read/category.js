@@ -42,7 +42,10 @@ class category extends Component {
   }
 
   _onPress(title) {
-    this.state.navi.navigate('ReadList', {title: title, url: `http://192.168.1.11:3000/data/read?type=${title}`});
+    this.state.navi.navigate('ReadList', {
+      title: title, 
+      url: `http://27.191.227.24:8091/data/read?type=${title}`
+    });
   }
 }
 

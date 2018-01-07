@@ -1,9 +1,8 @@
 import React from 'react';
-import {TabNavigator} from 'react-navigation';
+import { TabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-import {px2dp} from './common/utils';
-import {tabBarColor} from './models/color';
+import { tabBarColor } from './models/color';
 
 import HomePage from './android_views/HomePage';
 import ReadPage from './android_views/ReadPage';
@@ -14,25 +13,25 @@ const RouteConfigs = {
   Home: {
     screen: HomePage, navigationOptions: {
       title: '地图',
-      tabBarIcon: ({tintColor}) => <Icon name='map-marker' size={px2dp(18)} color={tintColor}/>
+      tabBarIcon: ({ tintColor }) => <Icon name='map-marker' size={18} color={tintColor} />
     }
   },
   Read: {
     screen: ReadPage, navigationOptions: {
       title: '阅读',
-      tabBarIcon: ({tintColor}) => <Icon name='book' size={px2dp(18)} color={tintColor}/>
+      tabBarIcon: ({ tintColor }) => <Icon name='book' size={18} color={tintColor} />
     }
   },
   Weather: {
     screen: WeatherPage, navigationOptions: {
       title: '天气',
-      tabBarIcon: ({tintColor}) => <Icon name='cloud' size={px2dp(18)} color={tintColor}/>
+      tabBarIcon: ({ tintColor }) => <Icon name='cloud' size={18} color={tintColor} />
     }
   },
   Setting: {
     screen: SettingPage, navigationOptions: {
       title: '设置',
-      tabBarIcon: ({tintColor}) => <Icon name='cogs' size={px2dp(18)} color={tintColor}/>
+      tabBarIcon: ({ tintColor }) => <Icon name='cogs' size={18} color={tintColor} />
     }
   },
 };
@@ -45,10 +44,10 @@ const TabNavigatorConfig = {
     inactiveTintColor: tabBarColor.primary,
     pressColor: tabBarColor.press,
     showIcon: true,
-    indicatorStyle: {display: 'none'},
-    labelStyle: {margin: 0, fontSize: px2dp(12)},
-    tabStyle: {padding: 0, paddingTop: 0},
-    style: {backgroundColor: tabBarColor.background},
+    indicatorStyle: { display: 'none' },
+    labelStyle: { margin: 0, fontSize: 12 },
+    tabStyle: { padding: 0, paddingTop: 0 },
+    style: { backgroundColor: tabBarColor.background },
   },
 };
 
